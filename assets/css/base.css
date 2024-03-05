@@ -1,0 +1,7 @@
+.dashboard_container .card-body {
+    color: #fafbfc; /* Make text color white */
+}
+
+.scrollable{
+    overflow: scroll; height: 200px;
+}

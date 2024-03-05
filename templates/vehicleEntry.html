@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Vehicle Entry{% endblock %}
+{% block content %}
+
+
+<div class="contaner p-5 pb-3 row">
+    <div class="card col-sm-7    me-5 ms-3">
+        
+          <p  class="card-header" ><i class="fa-solid fa-right-to-bracket"></i> Add Vehicles</p>
+        
+        <div class="card-body">
+           
+              <form class="row g-3" method='post' action="{% url 'vehicleEntryregister' %}">
+                {% csrf_token %}
+                
+                <div class="col-md-6">
+                    <label for="VehicleNumber" class="form-label">Vehicle Number</label>
+                    <input type="text" class="form-control" id="VehicleNumber" name="VehicleNumber">
+                </div>
+                <div class="col-md-6">
+                    <label for="VehicleTypeEntry" class="form-label">Vehicle Type</label>
+                    <select class="form-select" aria-label="Default select example" id="VehicleTypeEntry" name="VehicleTypeEntry" required onchange="updateParkingInfo()">
+                        <option value="" disabled selected hidden>Select Vehicle Type</option>
+                        {% for i in category
+                           %}
+                        {% if i.status %}
+                        <option value="{{ i.vehicle_type }}" data-parking-area="{{ i.parking_area_no }}" data-parking-charge="{{ i.parking_charge }}">
+                            {{ i.vehicle_type }}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="ParkingAreaNumberEntry" class="form-label">Parking Area Number</label>
+                    <input type="text" class="form-control" id="ParkingAreaNumberEntry" name="ParkingAreaNumberEntry"  readonly>
+                </div>
+                <div class="col-12">
+                    <label for="ParkingChargeEntry" class="form-label">Parking Charge</label>
+                    <input type="text" class="form-control" id="ParkingChargeEntry" name="ParkingChargeEntry" readonly>
+                </div>
+                
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            
+        </div>
+      </div>
+      <div class="card col-sm-4 ms-4 ">
+        <div class="card-header">
+          <p><i class="fa-solid fa-file"></i> Vehicle Limitation</p>
+        </div>
+        <div class="card-body scrollable">
+            <table class="table table-bordered">
+                
+                <tbody >
+                  {% for i in data %}
+                  <tr>
+                    
+                    <td>{{i.vehicle_type}} Limit</td>
+                    <td><span class="badge text-bg-success p-2">{{i.remaining_limit}}</span> out of {{i.vehicle_limit}}</td>
+                  </tr>
+                  
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+        </div>
+      </div>
+</div>
+
+<div class="conatiner p-5 pt-0">
+    <div class="card">
+        <h4  class="card-header" >Current Vehicles</h4>
+        <div class="card-body d-flex row">
+            
+            <div class="pe-5 ps-5">
+                
+                  <table class="table table-bordered table-striped" id="example">
+                    <thead>
+                        <tr>
+                            <th >#</th>
+                            <th >Vehicle Number</th>
+                            <th >Area Number</th>
+                            <th >Arrival Time</th>
+                            <th >Status</th>
+                            <th >Action</th>
+                          </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in data1 %}
+                        <tr>
+                            <th>{{i.id}}</th>
+                            <td>{{i.vehicle_no}}</td>
+                            <td>{{i.parking_area_no}}</td>
+                            <td>{{i.arrival_time}}</td>
+                            {% if i.status %}
+                            <td><span class="badge text-bg-primary p-2">Parked</span>
+                            </td>
+                            {% else %}
+                            <td><span class="badge text-bg-success p-2">leaved</span>
+                            </td>
+                            {% endif %}
+                            <td>
+                               
+                                  <button type="button" class="btn btn-secondary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="fa-solid fa-receipt"></i> Receipt</button>
+                                  
+                            </td>
+                             
+                        
+                        </tr>
+                        {% endfor %}
+                       
+                       
+                    </tbody>
+                </table>
+            </div>
+            
+      </div>
+</div>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">sent!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-success" >Receipt sent to their registered email address.</p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

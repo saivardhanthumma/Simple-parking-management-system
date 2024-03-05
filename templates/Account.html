@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
+<div class="card m-5">
+    <p  class="card-header" ><i class="fa-solid fa-gear"></i> Change Your Password</p>
+    <div class="card-body">
+        <form class="m-5" method="post" action="" id="FormId">
+          {% csrf_token %}
+          {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% elif message.tags == "success" %}
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% else %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="CurrentPassword" class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="CurrentPassword" name="CurrentPassword" required>
+              </div>
+              <div class="mb-3">
+                <label for="NewPassword" class="form-label">New Password</label> 
+                <input type="password" class="form-control" id="NewPassword" name="NewPassword" required>
+                <!-- Password criteria, initially hidden -->
+                <div id="passwordCriteria" style="display:none;" class="text-danger">
+
+                    <p>Your new password must meet the following criteria:</p>
+                    <ul>
+                        <li>At least 8 characters long</li>
+                        <li>Contains at least one uppercase letter (A-Z)</li>
+                        <li>Contains at least one lowercase letter (a-z)</li>
+                        <li>Includes at least one digit (0-9)</li>
+                        <li>Has at least one special character (e.g., @, #, $, %)</li>
+                    </ul>
+                  </div>
+
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Re-enter Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <p id="errormessage" class="text-danger"></p>
+              </div>
+            <button type="submit" class="btn btn-primary">Change Password</button>
+          </form>
+    </div>
+  </div>
+{% endblock %}

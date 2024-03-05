@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+
+    <!-- bootstrap cdns -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+   <script src="
+   https://cdn.datatables.net/2.0.1/js/dataTables.js"></script>
+   <script src="
+   https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.js
+      "></script>
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"></link>
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.bootstrap5.css"></link>
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        .offcanvas-body ul {
+            padding: 0;
+            margin: 0;
+        }
+        .offcanvas-body li {
+            list-style: none; /* Remove default list styling */
+            margin-bottom: 10px; /* Add space between list items */
+        }
+        .offcanvas-body li a {
+            display: block; /* Make the link fill the li element */
+            padding: 10px; /* Add some padding inside the link for better visuals */
+            color: #ffffff; /* Set default text color to white */
+            text-decoration: none; /* Remove underline from links */
+            transition: background-color 0.3s ease; /* Smooth transition for background color change */
+        }
+        .offcanvas-body li a:hover {
+            background-color: var(--bs-primary); /* Change background color to primary on hover */
+            color: #ffffff; /* Ensure text color remains white for contrast */
+        }
+    </style>
+    <script>
+        function fun() {
+            console.log("1234567890");
+        }
+    </script> 
+</head>
+<body class="bg-body-secondary">
+    <nav class="navbar bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand ms-4"   data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop"><p class="text-white"><span class="text-primary"><i class="fa-solid fa-car-side"></i> S</span>PMS Panel</p></a>
+          <div class="row align-items-center">
+            {% if user.is_authenticated %}
+            <p class="text-secondary col mb-0"><i class="fa-solid fa-user text-primary"></i> Welcome, {{ user.username }}</p>
+            
+            <form action="{% url 'logout1' %}" method="post" class="col-auto me-5">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Logout"> 
+                
+            </form>
+
+            <!-- <a href="{% url 'logout1' %}" class="btn btn-primary col-auto me-5">Logout</a> -->
+            {% endif %}
+        </div>
+        
+          
+        </div>
+      </nav>
+  
+      {% block content %}
+      {% endblock %}
+    
+      
+      <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header bg-dark">
+          <h5 class="offcanvas-title" id="staticBackdropLabel"><p class="text-white"><span class="text-primary"><i class="fa-solid fa-car-side"></i> S</span>PMS Panel</p></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body bg-dark">
+            <ul class="">
+                <li><a href="{% url 'dashboard' %}" ><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+                <li><a href="{% url 'category' %}"  ><i class="fa-solid fa-layer-group"></i> Category</a></li>
+                <li><a href="{% url 'vehicleEntry' %}" ><i class="fa-solid fa-right-to-bracket"></i> Vehicle Entry</a></li>
+                <li><a href="{% url 'managevehicle' %}" ><i class="fa-solid fa-list-check"></i> Manage Vehicles</a></li>
+                <li><a href=""  ><i class="fa-solid fa-chart-line"></i> Reports</a></li>
+                <li><a href="{% url 'searchdata' %}"  ><i class="fa-solid fa-magnifying-glass"></i> Search</a></li>
+                <li><a href="{% url 'Account' %}"  ><i class="fa-solid fa-gear"></i> Account Settings</a></li>
+                <li><a href="{% url 'logout1' %}" ><i class="fa-solid fa-power-off"></i> Logout</a></li>
+               
+            </ul>
+            
+        </div>
+      </div>
+      <script src="{% static 'js/js.js' %}" type="text/javascript"></script>
+     
+
+</body>
+</html>

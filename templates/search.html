@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Search{% endblock %}
+{% block content %}
+
+
+<div class="conatiner p-5 pt-0 mt-5">
+    <div class="card">
+        <p  class="card-header" ><i class="fa-solid fa-magnifying-glass"></i> Search Data | <span class="text-danger">O</span>nly the Records of the last 30 days are available here</p>
+        <div class="card-body d-flex row mt-5">
+           
+              
+            <div class="pe-5 ps-5">
+                
+                  <table class="table table-bordered table-striped" id="example">
+                    <thead>
+                        <tr>
+                            <th >#</th>
+                            <th >Vehicle Number</th>
+                            <th >Type</th>
+                            <th >Area Number</th>
+                            <th >Charge</th>
+                            <th >Arrival Time</th>
+                            <th >Status</th>
+                            
+                          </tr>
+                    </thead>
+                    <tbody>
+                      {% for vehicle in vehicles %}
+                          <tr>
+                              <th>{{ vehicle.id }}</th>
+                              <td>{{ vehicle.vehicle_no }}</td>
+                              <td>{{ vehicle.vehicle_type }}</td>
+                              <td>{{ vehicle.parking_area_no }}</td>
+                              <th><span class="text-warning">$</span> {{ vehicle.parking_charge }}</th>
+                              <td>{{ vehicle.arrival_time }}</td>
+                              {% if  vehicle.status  %}
+                              <td><span class="badge text-bg-success p-2">Parked</span>
+                              {% else %}
+                              <td><span class="badge text-bg-danger p-2">Leaved</span>
+                              {% endif %}
+                          </tr>
+                      {% empty %}
+                          <tr>
+                              <td colspan="7">No vehicles found.</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+               
+            </div>
+            
+      </div>
+</div>
+{% endblock %}

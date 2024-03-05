@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Vehicle Entry{% endblock %}
+{% block content %}
+
+
+<div class="conatiner p-5 pt-0 mt-5">
+    <div class="card">
+        <p  class="card-header" ><i class="fa-solid fa-list-check"></i> Manage Vehicels | <span class="text-primary">O</span>nly the Records of the last 30 days are available here</p>
+        <div class="card-body d-flex row">
+            
+            <div class="pe-5 ps-5">
+                
+                  <table class="table table-bordered table-striped" id="example" >
+                    <thead>
+                        <tr>
+                            <th >#</th>
+                            <th >Vehicle Number</th>
+                            <th >Type</th>
+                            <th >Area Number</th>
+                            <th >Charge</th>
+                            <th >Arrival Time</th>
+                            <th >Status</th>
+                            <th >Action</th>
+                          </tr>
+                    </thead>
+                    <tbody>
+                        {% if no_matches %}
+                            <tr>
+                                <td colspan="8" class="text-center">No matches found</td>
+                            </tr>
+                            {% else %}
+                        {% for i in data1 %}
+                        <tr>
+                            <th>{{i.id}}</th>
+                            <td>{{i.vehicle_no}}</td>
+                            <td>{{i.vehicle_type}}</td>
+                            <td>{{i.parking_area_no}}</td>
+                            <th ><span class="text-warning">$</span> {{i.parking_charge}}</th>
+                            <td>{{i.arrival_time}}</td>
+                            {% if i.status %}
+                            <td><span class="badge text-bg-primary p-2">Parked</span></td>
+                            <td>
+                                <div>
+                                    <a type="button" class="btn btn-primary btn-sm" href="{% url 'DoneBtn' i.id %}" id="Done_btn">Done</a>
+                                </div>
+                            </td>
+                            {% else %}
+                            <td><span class="badge text-bg-success p-2">leaved</span></td>
+                            <td>
+                                <div>
+                                    <a type="button" class="btn btn-secondary disabled btn-sm" href="{% url 'DoneBtn' i.id %}" id="Done_btn">Done</a>
+                                </div>
+                            </td>
+                            
+                            {% endif %}
+                            
+                            
+                             
+                        </tr>   
+                        {% endfor %}
+                         
+                        {% endif %}
+                           
+                       
+                    </tbody>
+                </table>
+               
+            </div>
+            
+      </div>
+</div>
+{% endblock %}

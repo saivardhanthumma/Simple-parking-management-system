@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row m-5 dashboard_container">
+    <div class="col-sm-4 mb-5 mb-sm-0 ">
+      <div class="card mb-5 bg-info p-3">
+        <div class="card-body row">
+            <div class="col">
+                
+                <h2 id="tp" class="counter" data-target="{{tp}}"></h2>
+                <p>Vehicles Parked</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-square-parking fa-2x"></i></h1>
+            </div>
+        
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card mb-5 bg-dark p-3">
+        <div class="card-body row">
+            <div class="col">
+              <h2 id="dp" class="counter" data-target="{{dp}}"></h2>
+                <p>Departed Parked</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-car fa-2x"></i></h1>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card mb-5 bg-danger p-3">
+          <div class="card-body row">
+            <div class="col">
+              
+                <h2 id="cc" class="counter" data-target="{{cc}}">0</h2>
+                <p>Available Category</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-layer-group fa-2x"></i></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card mb-5 bg-warning p-3">
+          <div class="card-body row">
+            <div class="col">
+                <h2  id="total_earnings" class="counter" data-target="{{total_earnings}}">0</h2>
+                <p>Total Earnings</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-money-check-dollar fa-2x"></i></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card mb-5 bg-secondary p-3">
+          <div class="card-body row">
+            <div class="col">
+                <h2 id="tv" class="counter" data-target="{{tv}}">0</h2>
+                <p>Total Records</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-layer-group fa-2x"></i></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card mb-5 bg-primary p-3">
+          <div class="card-body row">
+            <div class="col">
+              <h2 id="tl"  class="counter"data-target="{{tl}}">0</h2>
+                <p>Total slots</p>
+            </div>
+            <div class="col">
+                <h1><i class="fa-solid fa-check-double fa-2x"></i></h1>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+   
+  </div>
+{% endblock %}

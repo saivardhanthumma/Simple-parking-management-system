@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block title %}Category{% endblock %}
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == "error" %}
+    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert">
+                  
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+     {% elif message.tags == "success" %}
+      <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
+      {{ message }}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>
+        {% else %}
+     <div class="alert alert-info alert-dismissible fade show mt-5" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+ 
+
+<div class="contaner p-5 pb-3 row">
+    <div class="card col-sm-7    me-5 ms-3">
+        
+        <p  class="card-header" ><i class="fa-solid fa-list"></i> Add category</p>
+        
+        <div class="card-body">
+            <form class="row g-3" method="post" action="{% url 'categoryEntry' %}">
+              {% csrf_token %}
+                <div class="col-md-6">
+                  <label for="ParkingAreaNumber" class="form-label">Parking Area Number</label>
+                  <input type="text" class="form-control" id="ParkingAreaNumber" name="ParkingAreaNumber" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="VehicleType" class="form-label">Vehicle Type</label>
+                  <input type="text" class="form-control" id="VehicleType" name="VehicleType" required> 
+                </div>
+                <div class="col-12">
+                    <label for="VehicleLimit" class="form-label">Vehicle Limit</label>
+                    <input type="text" class="form-control" id="VehicleLimit" name="VehicleLimit" required>
+                  </div>
+                <div class="col-12">
+                  <label for="ParkingCharge" class="form-label">Parking Charge</label>
+                  <input type="text" class="form-control" id="ParkingCharge" name="ParkingCharge" required>
+                </div>
+                
+             
+                
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">submit</button>
+                </div>
+              </form>
+        </div>
+      </div>
+      <div class="card col-sm-4 ms-4 ">
+        <div class="card-header">
+          <p><i class="fa-solid fa-circle-info"></i> Details</p>
+        </div>
+        <div class="card-body scrollable">
+            <table class="table table-bordered">
+                
+                <tbody >
+                  {% for i in data1 %}
+                  <tr>
+                    <td>{{i.vehicle_type}}</td>
+                    <td>$ {{i.parking_charge}}</td>
+                  </tr>
+                  {% endfor %}
+              
+                  
+                </tbody>
+              </table>
+        </div>
+      </div>
+</div>
+
+<div class="conatiner p-5 pt-0">
+    <div class="card">
+        <p  class="card-header" ><i class="fa-solid fa-list-check"></i> Manage category</p>
+        <div class="card-body d-flex row">
+            
+            <div class="pe-5 ps-5">
+                
+                  <table id="example" class="table table-bordered table-striped" style="width:100%">
+                    <!-- <table id="example" class="table table-striped" style="width:100%; height:30%" > -->
+                    <thead>
+                        <tr>
+                            <th >#</th>
+                            <th >Area Number</th>
+                            <th >Vehicle Type</th>
+                            <th >Vehicle Limit</th>
+                            <th >Charge</th>
+                            <th >Status</th>
+                            <th >Action</th>
+                          </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                        <tr>
+                            <th>{{i.id}}</th>
+                            <td>{{i.parking_area_no}}</td>
+                            <td>{{i.vehicle_type}}</td>
+                            <td>{{i.vehicle_limit}}</td>
+                            <td>{{i.parking_charge}}</td>
+                            {% if i.status %}
+                            <td><span class="badge text-bg-success p-2">activated</span></td>
+                            {% else %}
+                            <td><span class="badge text-bg-danger p-2">deactivated</span></td>
+                            
+                            {% endif %}
+                            
+                            <td>
+                            <div>
+                              <button type="button" onclick="location.href='{% url 'deactivate_category' i.id %}'" class="btn btn-danger btn-sm">Deactivate</button>
+
+                                <!-- <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button> -->
+                                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editModal{{ i.id }}">
+                                  <i class="fa-solid fa-pen-to-square"></i>
+                              </button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ i.id }}')"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+            
+      </div>
+</div>
+{% for i in data %}
+<div class="modal fade" id="editModal{{ i.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ i.id }}" aria-hidden="true">
+  <div class="modal-dialog ">
+      <form action="{% url 'edit' i.id %}" method="post">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="editModalLabel{{ i.id }}">Edit {{i.vehicle_type}} Category</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  {% csrf_token %}
+                  <!-- Dynamically generate your form fields here, e.g., using {{ form.as_p }} -->
+                  <!-- For simplicity, manually define form fields if necessary -->
+                  <div class="mb-3">
+                      <label for="parkingAreaNumber{{ i.id }}" class="form-label">Parking Area Number</label>
+                      <input type="text" class="form-control" id="parkingAreaNumber{{ i.id }}" name="parking_area_no" value="{{ i.parking_area_no }}">
+                  </div>
+                  <div class="mb-3">
+                    <label for="parkingAreaNumber{{ i.id }}" class="form-label">Vehicle Type</label>
+                    <input type="text" class="form-control" id="parkingAreaNumber{{ i.id }}" name="vehicle_type" value="{{ i.vehicle_type }}">
+                </div>
+                <div class="mb-3">
+                  <label for="parkingAreaNumber{{ i.id }}" class="form-label">Vehicle Limit</label>
+                  <input type="text" class="form-control" id="parkingAreaNumber{{ i.id }}" name="vehicle_limit" value="{{ i.vehicle_limit }}">
+              </div>
+              <div class="mb-3">
+                      <label for="parkingAreaNumber{{ i.id }}" class="form-label">Parking charge</label>
+                      <input type="text" class="form-control" id="parkingAreaNumber{{ i.id }}" name="parking_charge" value="{{ i.parking_charge }}">
+                  </div>
+                  <!-- Repeat for other fields -->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Save changes" >
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+{% endfor %}
+<!--  End of Edit Modal -->
+
+
+
+<script>
+  function confirmDelete(categoryId) {
+      const isConfirmed = confirm('Are you sure you want to delete this category?');
+      if (isConfirmed) {
+          location.href = `{% url 'delete_category' 0 %}`.replace('/0/', `/${categoryId}/`);
+      }
+  }
+  </script>
+{% endblock %}
